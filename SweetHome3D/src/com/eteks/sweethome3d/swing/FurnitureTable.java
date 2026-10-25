@@ -576,7 +576,7 @@ public class FurnitureTable extends JTable implements View, Printable {
   }
 
   /**
-   * Adds <code>PropertyChange</code> and {@link FurnitureListener FurnitureListener} listeners 
+   * Adds <code>PropertyChange</code> and {@link FurnitureListener FurnitureListener} listeners
    * to home to update furniture sort in table when <code>furnitureSortedProperty</code>, 
    * <code>furnitureAscendingSorted</code> or furniture in <code>home</code> changes.
    */
@@ -886,6 +886,9 @@ public class FurnitureTable extends JTable implements View, Printable {
       Object columnIdentifier = column.getIdentifier();
       if (columnIdentifier instanceof HomePieceOfFurniture.SortableProperty) {
         switch ((HomePieceOfFurniture.SortableProperty)columnIdentifier) {
+          case VOLUME:
+            writer.write(sizeFormat.format(copiedPiece.getVolume()));
+            break;
           case CATALOG_ID :
             // Copy piece catalog id
             String catalogId = copiedPiece.getCatalogId();
@@ -1120,6 +1123,8 @@ public class FurnitureTable extends JTable implements View, Printable {
     private String getColumnName(HomePieceOfFurniture.SortableProperty property, 
                                  UserPreferences preferences) {
       switch (property) {
+        case VOLUME:
+          return preferences.getLocalizedString(FurnitureTable.class, "volumeColumn");
         case CATALOG_ID :
           return preferences.getLocalizedString(FurnitureTable.class, "catalogIdColumn");
         case NAME :
@@ -1157,7 +1162,7 @@ public class FurnitureTable extends JTable implements View, Printable {
         case VALUE_ADDED_TAX :
           return preferences.getLocalizedString(FurnitureTable.class, "valueAddedTaxColumn");          
         case PRICE_VALUE_ADDED_TAX_INCLUDED :
-          return preferences.getLocalizedString(FurnitureTable.class, "priceValueAddedTaxIncludedColumn");          
+          return preferences.getLocalizedString(FurnitureTable.class, "priceValueAddedTaxIncludedColumn");
         default :
           throw new IllegalArgumentException("Unknown column name " + property);
       }
@@ -1168,12 +1173,14 @@ public class FurnitureTable extends JTable implements View, Printable {
      */
     private int getColumnPreferredWidth(HomePieceOfFurniture.SortableProperty property) {
       switch (property) {
+        case VOLUME:
+          return 50;
         case CATALOG_ID :
         case NAME :
-          return 120; 
+          return 120;
         case WIDTH :
         case DEPTH :
-        case HEIGHT : 
+        case HEIGHT :
         case X : 
         case Y :
         case ELEVATION : 
@@ -1193,7 +1200,7 @@ public class FurnitureTable extends JTable implements View, Printable {
         case VALUE_ADDED_TAX_PERCENTAGE :
         case VALUE_ADDED_TAX :
         case PRICE_VALUE_ADDED_TAX_INCLUDED :
-          return 70;          
+          return 70;
         default :
           throw new IllegalArgumentException("Unknown column name " + property);
       }
@@ -1205,6 +1212,8 @@ public class FurnitureTable extends JTable implements View, Printable {
     private TableCellRenderer getColumnRenderer(HomePieceOfFurniture.SortableProperty property, 
                                                 UserPreferences preferences) {
       switch (property) {
+        case VOLUME :
+          return getSizeRenderer(HomePieceOfFurniture.SortableProperty.VOLUME, preferences);
         case CATALOG_ID :
           return getCatalogIdRenderer(); 
         case NAME :
@@ -1311,6 +1320,16 @@ public class FurnitureTable extends JTable implements View, Printable {
       };
       
       switch (property) {
+        case VOLUME:
+          return new SizeRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table,
+                                                           Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+              return super.getTableCellRendererComponent(table,
+                      value != null  ? ((HomePieceOfFurniture)value).getVolume()  : null,
+                      isSelected, hasFocus, row, column);
+            }
+          };
         case WIDTH :
           return new SizeRenderer() {
               @Override

@@ -342,6 +342,10 @@ public class HomePane extends JRootPane implements HomeView {
     if (homeController3D.getView() != null) {
       createAction(ActionType.IMPORT_FURNITURE, preferences, controller, "importFurniture");
     }
+    createAction(ActionType.DISPLAY_HOME_FURNITURE_VOLUME, preferences,
+            furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.VOLUME);
+    createAction(ActionType.SORT_HOME_FURNITURE_BY_VOLUME, preferences,
+            furnitureController, "toggleFurnitureSort", HomePieceOfFurniture.SortableProperty.VOLUME);
     createAction(ActionType.IMPORT_FURNITURE_LIBRARY, preferences, controller, "importFurnitureLibrary");
     createAction(ActionType.IMPORT_TEXTURE, preferences, controller, "importTexture");
     createAction(ActionType.IMPORT_TEXTURES_LIBRARY, preferences, controller, "importTexturesLibrary");
@@ -1313,36 +1317,38 @@ public class HomePane extends JRootPane implements HomeView {
         new LinkedHashMap<HomePieceOfFurniture.SortableProperty, Action>();     
     // Use catalog id if currency isn't null
     if (preferences.getCurrency() != null) {
-      addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_CATALOG_ID, 
-          sortActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID); 
-    }
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_NAME, 
-        sortActions, HomePieceOfFurniture.SortableProperty.NAME); 
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_WIDTH, 
+      addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_CATALOG_ID,
+          sortActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID);
+      }
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_VOLUME,
+            sortActions, HomePieceOfFurniture.SortableProperty.VOLUME);
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_NAME,
+        sortActions, HomePieceOfFurniture.SortableProperty.NAME);
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_WIDTH,
         sortActions, HomePieceOfFurniture.SortableProperty.WIDTH);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_DEPTH, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_DEPTH,
         sortActions, HomePieceOfFurniture.SortableProperty.DEPTH);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_HEIGHT, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_HEIGHT,
         sortActions, HomePieceOfFurniture.SortableProperty.HEIGHT);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_X, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_X,
         sortActions, HomePieceOfFurniture.SortableProperty.X);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_Y, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_Y,
         sortActions, HomePieceOfFurniture.SortableProperty.Y);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_ELEVATION, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_ELEVATION,
         sortActions, HomePieceOfFurniture.SortableProperty.ELEVATION);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_ANGLE, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_ANGLE,
         sortActions, HomePieceOfFurniture.SortableProperty.ANGLE);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_LEVEL, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_LEVEL,
         sortActions, HomePieceOfFurniture.SortableProperty.LEVEL);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_COLOR, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_COLOR,
         sortActions, HomePieceOfFurniture.SortableProperty.COLOR);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_TEXTURE, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_TEXTURE,
         sortActions, HomePieceOfFurniture.SortableProperty.TEXTURE);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_MOVABILITY, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_MOVABILITY,
         sortActions, HomePieceOfFurniture.SortableProperty.MOVABLE);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_TYPE, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_TYPE,
         sortActions, HomePieceOfFurniture.SortableProperty.DOOR_OR_WINDOW);
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_VISIBILITY, 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_VISIBILITY,
         sortActions, HomePieceOfFurniture.SortableProperty.VISIBLE);
     // Use prices if currency isn't null
     if (preferences.getCurrency() != null) {
@@ -1416,36 +1422,38 @@ public class HomePane extends JRootPane implements HomeView {
         new LinkedHashMap<HomePieceOfFurniture.SortableProperty, Action>(); 
     // Use catalog id if currency isn't null
     if (preferences.getCurrency() != null) {
-      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_CATALOG_ID, 
-          displayPropertyActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID); 
+      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_CATALOG_ID,
+          displayPropertyActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID);
     }
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_NAME, 
-        displayPropertyActions, HomePieceOfFurniture.SortableProperty.NAME); 
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_WIDTH, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VOLUME,
+            displayPropertyActions, HomePieceOfFurniture.SortableProperty.VOLUME);
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_NAME,
+        displayPropertyActions, HomePieceOfFurniture.SortableProperty.NAME);
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_WIDTH,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.WIDTH);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DEPTH, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DEPTH,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.DEPTH);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_HEIGHT, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_HEIGHT,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.HEIGHT);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_X, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_X,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.X);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_Y, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_Y,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.Y);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_ELEVATION, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_ELEVATION,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.ELEVATION);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_ANGLE, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_ANGLE,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.ANGLE);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_LEVEL, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_LEVEL,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.LEVEL);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_COLOR, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_COLOR,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.COLOR);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_TEXTURE, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_TEXTURE,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.TEXTURE);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_MOVABLE, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_MOVABLE,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.MOVABLE);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DOOR_OR_WINDOW, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DOOR_OR_WINDOW,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.DOOR_OR_WINDOW);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VISIBLE, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VISIBLE,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.VISIBLE);
     // Use prices if currency isn't null
     if (preferences.getCurrency() != null) {
